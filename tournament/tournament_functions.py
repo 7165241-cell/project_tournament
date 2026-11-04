@@ -30,24 +30,61 @@ def enter_user():
         except ValueError:
             print("Invalid input please enter only number between 1-10: ") 
             
+groups = []
 
-group_names=[]
-def add_team(name):
-    
+def group_name(groups):
     while True:
-        names=input("enter the group name :")  
         try:
-            name=str(names)
-            if name  not in group_names:
-                group_names.append (name)
-            else:
-                print("please enter a name group ")
-                continue
-            return group_names
+            group_is_name=str(input("enter the group name :"))
+            raise ValueError
         except ValueError:
-            print("eroor please enter a txt")
+            print("Invalid input; please enter text.")
+        is_exists = False
+        for group in groups:
+                if group["name"] == group_is_name:
+                    is_exists = True
+                    break
+        if is_exists:
+            print("this name already exists. please enter new name")
+            continue
+        else:
+            return group_is_name
+            
 
+def group_id(groups):
+    while True:
+        try:
+            group_id = int(input("Please enter group id: "))
+            if group_id <= 0:
+                raise ValueError
+        except ValueError:
+            print("Invalid input musrt be an integer positive.")
+        is_exists = False
+        for group in groups:
+                if group["id"] == group_id:
+                    is_exists = True
+                    break
+        if is_exists:
+            print("id already exists")
+            continue
+        else:
+            return group_id         
+                
 
+def insert_new_group(groups,g_id,g_name):
+    new_group= {
+    "id": 0, "name": "", "played": 0,
+    "wins": 0, "draws": 0, "losses": 0,
+    "goals_for": 0, "goals_against": 0, "points": 0
+}
+    new_group["id"] = g_id
+    new_group["name"] = g_name
+    groups.append(new_group)
+
+    print("The group was added successfully")
+    print(groups)
+    return new_group
+    
 
 
 
@@ -90,7 +127,10 @@ while True:
     user_choice = enter_user()
     
     if user_choice == 1:
-        add_team(group_names)
+        id = group_id(groups)
+        name = group_name(groups)
+        insert_new_group(groups,id,name)
+        
 
     elif user_choice == 2:
         all_teams()
@@ -122,7 +162,6 @@ while True:
     elif user_choice == 0 :
         exit()
 
-    break
 
 
 
